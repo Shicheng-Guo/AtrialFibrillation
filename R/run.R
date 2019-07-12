@@ -10,25 +10,30 @@
 ####################################################################################################################################
 ### Section 1. function predifinition 
 ####################################################################################################################################
+BiocManager::install("IlluminaHumanMethylationEPICanno.ilm10b4.hg19")
+BiocManager::install("IlluminaHumanMethylationEPICmanifest")
+BiocManager::install("minfiData")
+BiocManager::install("missMethyl")
+BiocManager::install("minfiData")
+BiocManager::install("Gviz")
+BiocManager::install("DMRcate")
 library("ggplot2")
 require("minfi")
-#BiocManager::install("IlluminaHumanMethylationEPICanno.ilm10b4.hg19")
-#BiocManager::install("minfiData")
-library(knitr)
-library(limma)
-library(minfi)
-library(IlluminaHumanMethylation450kanno.ilmn12.hg19)
-library(IlluminaHumanMethylation450kmanifest)
-library(RColorBrewer)
-library(missMethyl)
-library(minfiData)
-library(Gviz)
-library(DMRcate)
-library(stringr)
+library("knitr")
+library("limma")
+library("minfi")
+library("IlluminaHumanMethylation450kanno.ilmn12.hg19")
+library("IlluminaHumanMethylation450kmanifest")
+library("IlluminaHumanMethylationEPICanno.ilm10b4.hg19")
+library("IlluminaHumanMethylationEPICmanifest")
+library("RColorBrewer")
+library("missMethyl")
+library("minfiData")
+library("Gviz")
+library("DMRcate")
+library("stringr")
 
-
-RINfun=function(yorig)
-{
+RINfun=function(yorig){
   yranks=rank(yorig)
   tempp=(yranks-.5)/(length(yranks))
   return(qnorm(tempp))
@@ -45,27 +50,24 @@ RawNARemove<-function(data,missratio=0.3){
   }
   data1
 }   
-
-####################################################################################################################################
+############################################################################################
 ### Section 2. read the idat
-####################################################################################################################################
-baseDir="//mcrfnas2/bigdata/Genetic/Projects/shg047/methylation/Ingrid/MCaldwell-Sept27-17-HuMethEPIC/Raw_Data/idat"
+############################################################################################
+baseDir="C:\\Users\\shg047\\Documents\\GitHub\\AtrialFibrillation\\idat"
 setwd(baseDir)
-install.packages("IlluminaHumanMethylationEPICanno.ilm10b4.hg19_0.6.0.tar.gz")
-install.packages("IlluminaHumanMethylationEPICanno.ilm10b4.hg19_0.6.0")
 list.files()
 dataDirectory <- baseDir
 list.files(dataDirectory, recursive = TRUE)
 targets <- read.metharray.sheet(baseDir)
 RGset <- read.metharray.exp(base = baseDir, targets = targets)
-densityPlot(RGset,xlim=c(0,2),sampGroups = RGset$Sample_Group,main = "Beta", xlab = "Beta",cex=0.5)
-
+pdf("../Figure_S1.pdf")
+densityPlot(RGset,xlim=c(0,1),sampGroups = RGset$Sample_Group,main = "Beta", xlab = "Beta",cex=0.1)
 detP <- detectionP(RGset)
-
 pal <- brewer.pal(8,"Dark2")
 barplot(colMeans(detP), col=pal[factor(targets$Case_Control)], las=2, cex.names=0.8, ylab="Mean detection p-values")
 abline(h=0.05,col="red")
 legend("topleft", legend=levels(factor(targets$Case_Control)), fill=pal,bg="white")
+dev.off()
 
 qcReport(RGset, sampNames=targets$ID, sampGroups=targets$Case_Control,pdf="Figure_S2.qcReport.pdf")
 head(targets)
@@ -80,12 +82,9 @@ mSetRaw <- preprocessRaw(rgSet)
 pdf("Figure_S4.pdf")
 par(mfrow=c(1,2))
 densityPlot(rgSet, sampGroups=targets$Case_Control,main="Raw", legend=FALSE)
-legend("top", legend = levels(factor(targets$Case_Control)), 
-       text.col=brewer.pal(8,"Dark2"))
-densityPlot(getBeta(mSetSq), sampGroups=targets$Case_Control,
-            main="Normalized", legend=FALSE)
-legend("top", legend = levels(factor(targets$Case_Control)), 
-       text.col=brewer.pal(8,"Dark2"))
+legend("top", legend = levels(factor(targets$Case_Control)), text.col=brewer.pal(8,"Dark2"))
+densityPlot(getBeta(mSetSq), sampGroups=targets$Case_Control,main="Normalized", legend=FALSE)
+legend("top", legend = levels(factor(targets$Case_Control)), text.col=brewer.pal(8,"Dark2"))
 dev.off()
 
 pdf("Figure_S5.pdf")
@@ -115,24 +114,16 @@ bVals <- getBeta(mSetSqFlt)
 head(bVals[,1:5])
 head(mVals[,1:5])
 
+pdf("Figure_S6.pdf")
 par(mfrow=c(1,2))
-densityPlot(bVals, sampGroups=targets$Case_Control, main="Beta values", 
-            legend=FALSE, xlab="Beta values")
-legend("top", legend = levels(factor(targets$Case_Control)), 
-       text.col=brewer.pal(8,"Dark2"))
-densityPlot(mVals, sampGroups=targets$Case_Control, main="M-values", 
-            legend=FALSE, xlab="M values")
-legend("topleft", legend = levels(factor(targets$Case_Control)), 
-       text.col=brewer.pal(8,"Dark2"))
-
-
-
+densityPlot(bVals, sampGroups=targets$Case_Control, main="Beta values", legend=FALSE, xlab="Beta values")
+legend("top", legend = levels(factor(targets$Case_Control)),text.col=brewer.pal(8,"Dark2"))
+densityPlot(mVals, sampGroups=targets$Case_Control, main="M-values",legend=FALSE, xlab="M values")
+legend("topleft", legend = levels(factor(targets$Case_Control)), text.col=brewer.pal(8,"Dark2"))
+dev.off()
 
 ann450k <- getAnnotation(IlluminaHumanMethylation450kanno.ilmn12.hg19)
 head(ann450k)
-
-
-
 
 detP <- detP[match(featureNames(mSetSq),rownames(detP)),] 
 keep <- rowSums(detP < 0.01) == ncol(mSetSq) 
