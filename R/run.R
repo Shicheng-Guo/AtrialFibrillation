@@ -60,7 +60,7 @@ dataDirectory <- baseDir
 list.files(dataDirectory, recursive = TRUE)
 targets <- read.metharray.sheet(baseDir)
 RGset <- read.metharray.exp(base = baseDir, targets = targets)
-pdf("../Figure_S1.pdf")
+pdf("..\\test\\result\\Figure_S1.pdf")
 densityPlot(RGset,xlim=c(0,1),sampGroups = RGset$Sample_Group,main = "Beta", xlab = "Beta",cex=0.1)
 detP <- detectionP(RGset)
 pal <- brewer.pal(8,"Dark2")
@@ -69,8 +69,9 @@ abline(h=0.05,col="red")
 legend("topleft", legend=levels(factor(targets$Case_Control)), fill=pal,bg="white")
 dev.off()
 
-qcReport(RGset, sampNames=targets$ID, sampGroups=targets$Case_Control,pdf="Figure_S2.qcReport.pdf")
+qcReport(RGset, sampNames=targets$ID, sampGroups=targets$Case_Control,pdf="..\\test\\result\\Figure_S2.qcReport.pdf")
 head(targets)
+pdf("..\\test\\result\\Figure_S3.pdf")
 keep <- colMeans(detP) < 0.05
 rgSet <- RGset[,keep]
 rgSet
@@ -79,7 +80,6 @@ targets[,1:5]
 mSetSq <- preprocessQuantile(rgSet) 
 mSetRaw <- preprocessRaw(rgSet)
 
-pdf("Figure_S4.pdf")
 par(mfrow=c(1,2))
 densityPlot(rgSet, sampGroups=targets$Case_Control,main="Raw", legend=FALSE)
 legend("top", legend = levels(factor(targets$Case_Control)), text.col=brewer.pal(8,"Dark2"))
@@ -87,7 +87,7 @@ densityPlot(getBeta(mSetSq), sampGroups=targets$Case_Control,main="Normalized", 
 legend("top", legend = levels(factor(targets$Case_Control)), text.col=brewer.pal(8,"Dark2"))
 dev.off()
 
-pdf("Figure_S5.pdf")
+pdf("..\\test\\result\\Figure_S4.pdf")
 par(mfrow=c(1,2))
 plotMDS(getM(mSetSq), top=1000, gene.selection="common", col=pal[factor(targets$Case_Control)],pch=16,cex=1.5)
 legend("top", legend=levels(factor(targets$Case_Control)), text.col=pal,bg="white", cex=0.7,pch=16,col=pal)
@@ -95,7 +95,7 @@ plotMDS(getM(mSetSq), top=1000, gene.selection="common",col=pal[factor(targets$Y
 legend("top", legend=levels(factor(targets$Young_Old)), text.col=pal,bg="white", cex=0.7,pch=16,col=pal)
 dev.off()
 
-pdf("Figure_S6.pdf")
+pdf("..\\test\\result\\Figure_S5.pdf")
 par(mfrow=c(1,3))
 plotMDS(getM(mSetSq), top=1000, gene.selection="common", col=pal[factor(targets$Case_Control)], dim=c(1,3),pch=16,cex=1.5)
 legend("top", legend=levels(factor(targets$Sample_Group)), text.col=pal,cex=0.7, bg="white",pch=16,col=pal)
@@ -114,7 +114,7 @@ bVals <- getBeta(mSetSqFlt)
 head(bVals[,1:5])
 head(mVals[,1:5])
 
-pdf("Figure_S6.pdf")
+pdf("..\\test\\result\\Figure_S6.pdf")
 par(mfrow=c(1,2))
 densityPlot(bVals, sampGroups=targets$Case_Control, main="Beta values", legend=FALSE, xlab="Beta values")
 legend("top", legend = levels(factor(targets$Case_Control)),text.col=brewer.pal(8,"Dark2"))
@@ -122,30 +122,30 @@ densityPlot(mVals, sampGroups=targets$Case_Control, main="M-values",legend=FALSE
 legend("topleft", legend = levels(factor(targets$Case_Control)), text.col=brewer.pal(8,"Dark2"))
 dev.off()
 
-ann450k <- getAnnotation(IlluminaHumanMethylation450kanno.ilmn12.hg19)
-head(ann450k)
+ann850k <- getAnnotation(IlluminaHumanMethylationEPICanno.ilm10b4.hg19)
+head(ann850k)
 
 detP <- detP[match(featureNames(mSetSq),rownames(detP)),] 
 keep <- rowSums(detP < 0.01) == ncol(mSetSq) 
 table(keep)
 mSetSqFlt <- mSetSq[keep,]
 mSetSqFlt
-keep <- !(featureNames(mSetSqFlt) %in% ann450k$Name[ann450k$chr %in% c("chrX","chrY")])
+keep <- !(featureNames(mSetSqFlt) %in% ann850k$Name[ann850k$chr %in% c("chrX","chrY")])
 table(keep)
 mSetSqFlt <- mSetSqFlt[keep,]
-
-
-
 ####################################################################################################################################
 ### Section 3. read the idat
 ####################################################################################################################################
 MSet.norm <- preprocessIllumina(RGset, bg.correct = TRUE,normalize = "controls", reference = 2)
+pdf("..\\test\\result\\Figure_S7.pdf")
 mdsPlot(MSet.norm, numPositions = 1000, sampGroups = MSet.norm$Sample_Group, sampNames = MSet.norm$Sample_Name)
-mset <- MSet.norm[1:100000,]
+dev.off()
+
+pdf("..\\test\\result\\Figure_S8.pdf")
+mset <- MSet.norm[1:1000,]
 M <- getM(mset, type = "beta", betaThreshold = 0.001)
-dmp <- dmpFinder(M, pheno=mset$Sample_Group, type="categorical")
-head(dmp)
-plotCpg(mset, cpg=rownames(dmp)[1], pheno=mset$Sample_Group)
+dmp <- dmpFinder(M, pheno=mset$Case_Control, type="categorical")
+plotCpg(mset, cpg=rownames(dmp)[1], pheno=mset$Case_Control)
 mset <- mset[rownames(dmp),]
 mse <- mapToGenome(mset)
 rowData(mse)
