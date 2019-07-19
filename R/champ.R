@@ -1,3 +1,5 @@
+BiocManager::install("ChAMP") 
+BiocManager::install("doParallel") 
 library("ChAMP")
 library("doParallel")
 Dir="/home/local/MFLDCLIN/guosa/hpc/methylation/Ingrid/MCaldwell-Sept27-17-HuMethEPIC/Raw_Data/idat"
