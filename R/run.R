@@ -8,7 +8,7 @@
 ###   Section 5. GEO Validation (GSE34639,GSE27895)
 ########################################################################################
 ####################################################################################################################################
-### Section 1. function predifinition 
+### Section 1. function predifinition (R3.6.0 in BIRC10-LC)
 ####################################################################################################################################
 BiocManager::install("IlluminaHumanMethylationEPICanno.ilm10b4.hg19")
 BiocManager::install("IlluminaHumanMethylationEPICmanifest")
@@ -18,6 +18,9 @@ BiocManager::install("minfiData")
 BiocManager::install("Gviz")
 BiocManager::install("DMRcate")
 BiocManager::install("ChAMP")
+BiocManager::install("ChAMPdata")
+BiocManager::install("IlluminaHumanMethylationEPICanno.ilm10b2.hg19")
+
 library("ChAMP")
 library("ggplot2")
 require("minfi")
