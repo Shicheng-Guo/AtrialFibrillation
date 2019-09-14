@@ -1,6 +1,6 @@
 #####################################################################
-###   Title : Genome-wide DNA methylation analysis for RA patient
-###   Author: Shicheng Guo, Ph.D. Email: Shicheng.Guo@hotmail.com 
+###   Title : Genome-wide DNA methylation analysis for atrial fibrillation patient
+###   Author: Shicheng Guo, Ph.D. Email: Shihcheng.Guo@Gmail.com 
 ###   Section 1. Function predifinition 
 ###   Section 2. Data Cleaning
 ###   Section 3. Differential Analysis
