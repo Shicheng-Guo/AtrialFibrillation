@@ -10,6 +10,7 @@
 ####################################################################################################################################
 ### Section 1. function predifinition (R3.6.0 in BIRC10-LC)
 ####################################################################################################################################
+install.packages("BiocManager")
 BiocManager::install("IlluminaHumanMethylationEPICanno.ilm10b4.hg19")
 BiocManager::install("IlluminaHumanMethylationEPICmanifest")
 BiocManager::install("minfiData")
