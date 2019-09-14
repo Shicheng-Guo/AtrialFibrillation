@@ -16,11 +16,14 @@ BiocManager::install("IlluminaHumanMethylationEPICmanifest")
 BiocManager::install("minfiData")
 BiocManager::install("missMethyl")
 BiocManager::install("minfiData")
-BiocManager::install("Gviz")
+BiocManager::install("Gviz",lib="/home/local/MFLDCLIN/guosa/hpc/tools/R-3.6.1/lib")
 BiocManager::install("DMRcate")
-BiocManager::install("ChAMP")
+BiocManager::install("ChAMP",lib="/home/local/MFLDCLIN/guosa/hpc/tools/R-3.6.1/lib")
 BiocManager::install("ChAMPdata")
 BiocManager::install("IlluminaHumanMethylationEPICanno.ilm10b2.hg19")
+
+conda create -n birc10
+conda activate birc10
 
 library("ChAMP")
 library("ggplot2")
