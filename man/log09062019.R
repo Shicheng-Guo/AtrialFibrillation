@@ -7,7 +7,6 @@
 ###   Section 4. Pathway Analysis
 ###   Section 5. GEO Validation (GSE34639,GSE27895)
 #########################################################################################
-
 BiocManager::install("ChAMP") 
 BiocManager::install("doParallel") 
 BiocManager::install("benchmarkme") 
@@ -23,15 +22,21 @@ pdf("MCaldwell.AMP.EPIC.QC.pdf")
 champ.QC()
 dev.off()
 
+## don't use all the cores which might be killed by the system
+myNorm <- champ.norm(beta=myLoad$beta,arraytype="EPIC",cores=5) 
+## BMIQ use random seed, be aware each time result will be little different
 ##########################################################################
-myNorm <- champ.norm(beta=myLoad$beta,arraytype="EPIC",cores=6)
 pdf("MCaldwell.AMP.EPIC.SVD.pdf")
 champ.SVD(beta=myNorm,pd=myLoad$pd)
 dev.off()
 myCombat <- champ.runCombat(beta=myNorm,pd=myLoad$pd,batchname=c("Slide"))
 ##########################################################################
-
 myDMP <- champ.DMP(beta = myNorm,pheno=myLoad$pd$pureG3,arraytype="EPIC")
+
+## NON vs Case, 6693, 14485, 
+## Control vs Case, 1, 1
+## NON vs Control, 0, 0
+## Here, 1 DMP in control vs case group will make the script crash since it require DMP>=2
 
 myDMP <- champ.DMP(beta = myNorm,pheno=myLoad$pd$Sample_Group,arraytype="EPIC")
 write.table(myDMP,file="AtrialFibrillation.CaseControl.myDMP.txt",col.names = NA,row.names = T,quote=F,sep="\t")
