@@ -12,11 +12,11 @@ BiocManager::install("sesame")
 BiocManager::install("doParallel") 
 BiocManager::install("benchmarkme") 
 
-benchmarkme::get_ram()
-detectCores()
-
 library("sesame") 
 library("ChAMP") 
 library("sesame") 
 library("doParallel") 
 library("benchmarkme") 
+
+benchmarkme::get_ram()
+detectCores()
