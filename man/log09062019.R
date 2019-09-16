@@ -16,6 +16,7 @@ detectCores()
 library("ChAMP")
 library("doParallel")
 Dir="/home/local/MFLDCLIN/guosa/hpc/methylation/Ingrid/MCaldwell-Sept27-17-HuMethEPIC/Raw_Data/idat"
+setwd(Dir)
 
 myLoad <- champ.load(Dir,filterBeads=TRUE,arraytype="EPIC")
 pdf("MCaldwell.AMP.EPIC.QC.pdf")
@@ -31,15 +32,14 @@ champ.SVD(beta=myNorm,pd=myLoad$pd)
 dev.off()
 myCombat <- champ.runCombat(beta=myNorm,pd=myLoad$pd,batchname=c("Slide"))
 ##########################################################################
-myDMP <- champ.DMP(beta = myNorm,pheno=myLoad$pd$pureG3,arraytype="EPIC")
-
+myDMP <- champ.DMP(beta = myNorm,pheno=myLoad$pd$pureG3,compare.group=c("Control","Case"),arraytype="EPIC")
 ## NON vs Case, 6693, 14485, 
 ## Control vs Case, 1, 1
 ## NON vs Control, 0, 0
 ## Here, 1 DMP in control vs case group will make the script crash since it require DMP>=2
-
 myDMP <- champ.DMP(beta = myNorm,pheno=myLoad$pd$Sample_Group,arraytype="EPIC")
 write.table(myDMP,file="AtrialFibrillation.CaseControl.myDMP.txt",col.names = NA,row.names = T,quote=F,sep="\t")
+
 myDMP <- champ.DMP(beta = myNorm,pheno=myLoad$pd$Young_Old,arraytype="EPIC",adjPVal = 0.1)
 write.table(myDMP,file="AtrialFibrillation.YoungOld.myDMP.txt",col.names = NA,row.names = T,quote=F,sep="\t")
 myDMP <- champ.DMP(beta = myNorm,pheno=myLoad$pd$Pmr_Enrollment,arraytype="EPIC",adjPVal = 0.1)
