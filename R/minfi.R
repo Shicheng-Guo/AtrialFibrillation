@@ -43,6 +43,7 @@ write.table(dmp.full,file="dmp.dmpFinder.minfi.txt",sep="\t",col.names=NA,row.na
 
 dmp.sig<-subset(dmp,pval<5.7^-8)
 dmp.sig<-data.frame(dmp.sig,anno[match(rownames(dmp.sig),anno$ID),c(1,12,13,7)])
+write.table(dmp.sig,file="dmp.dmpFinder.minfi.sig.txt",sep="\t",col.names=NA,row.names=T,quote=F)
 
 designMatrix <- model.matrix(~ phen)
 dmr <- bumphunter(myNormalRGSet, design = designMatrix, cutoff = 0.2, B=0, type="Beta")
