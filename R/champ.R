@@ -20,6 +20,8 @@ Dir="/home/local/MFLDCLIN/guosa/hpc/methylation/Ingrid/MCaldwell-Sept27-17-HuMet
 set.seed(11)
 
 myLoad <- champ.load(Dir,filterBeads=TRUE,arraytype="EPIC")
+# EPIC has 411 control probes
+
 pdf("MCaldwell.AMP.EPIC.QC.pdf")
 champ.QC()
 dev.off()
