@@ -39,3 +39,4 @@ designMatrix <- model.matrix(~ phen)
 dmr <- bumphunter(myNormalRGSet, design = designMatrix, cutoff = 0.2, B=0, type="Beta")
 
 cellCounts <- estimateCellCounts(RGSet)
+write.table(cellCounts,file="cellcounts.estimation.txt",sep="\t",col.names=NA,row.names=T,quote=T)
