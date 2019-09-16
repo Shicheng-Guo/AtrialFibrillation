@@ -26,6 +26,8 @@ champ.SVD(beta=myNorm,pd=myLoad$pd)
 dev.off()
 myCombat <- champ.runCombat(beta=myNorm,pd=myLoad$pd,batchname=c("Slide"))
 
+myDMP <- champ.DMP(beta = myNorm,pheno=myLoad$pd$pureG3,arraytype="EPIC")
+
 myDMP <- champ.DMP(beta = myNorm,pheno=myLoad$pd$Sample_Group,arraytype="EPIC")
 write.table(myDMP,file="AtrialFibrillation.CaseControl.myDMP.txt",col.names = NA,row.names = T,quote=F,sep="\t")
 myDMP <- champ.DMP(beta = myNorm,pheno=myLoad$pd$Young_Old,arraytype="EPIC",adjPVal = 0.1)
