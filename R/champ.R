@@ -10,21 +10,26 @@
 
 BiocManager::install("ChAMP") 
 BiocManager::install("doParallel") 
+BiocManager::install("benchmarkme") 
+benchmarkme::get_ram()
+detectCores()
 
 library("ChAMP")
 library("doParallel")
 Dir="/home/local/MFLDCLIN/guosa/hpc/methylation/Ingrid/MCaldwell-Sept27-17-HuMethEPIC/Raw_Data/idat"
 
-detectCores()
 myLoad <- champ.load(Dir,filterBeads=TRUE,arraytype="EPIC")
 pdf("MCaldwell.AMP.EPIC.QC.pdf")
 champ.QC()
 dev.off()
+
+##########################################################################
 myNorm <- champ.norm(beta=myLoad$beta,arraytype="EPIC",cores=6)
 pdf("MCaldwell.AMP.EPIC.SVD.pdf")
 champ.SVD(beta=myNorm,pd=myLoad$pd)
 dev.off()
 myCombat <- champ.runCombat(beta=myNorm,pd=myLoad$pd,batchname=c("Slide"))
+##########################################################################
 
 myDMP <- champ.DMP(beta = myNorm,pheno=myLoad$pd$pureG3,arraytype="EPIC")
 
