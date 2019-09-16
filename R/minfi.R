@@ -34,9 +34,8 @@ phen  <- pData(myNormalRGSet)$Sample_Group
 
 predictedSex <- getSex(myNormalRGSet, cutoff = -2)$predictedSex
 
-
 dmp <- dmpFinder(beta, pheno = phen  , type = "categorical")
 designMatrix <- model.matrix(~ phen)
 dmr <- bumphunter(myNormalRGSet, design = designMatrix, cutoff = 0.2, B=0, type="Beta")
 
-cellCounts <- estimateCellCounts(RGset)
+cellCounts <- estimateCellCounts(RGSet)
