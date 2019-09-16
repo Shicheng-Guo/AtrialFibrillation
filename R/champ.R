@@ -16,16 +16,20 @@ detectCores()
 library("ChAMP")
 library("doParallel")
 Dir="/home/local/MFLDCLIN/guosa/hpc/methylation/Ingrid/MCaldwell-Sept27-17-HuMethEPIC/Raw_Data/idat"
-
 set.seed(11)
+
+targets <- read.metharray.sheet(Dir)
+RGSet <- read.metharray.exp(targets = targets)
+phenoData <- pData(RGSet)
+manifest <- getManifest(RGSet)
+head(getProbeInfo(manifest))
+myNormalRGSet<-preprocessFunnorm(RGSet, nPCs=4, sex = NULL, bgCorr = TRUE,dyeCorr = TRUE, keepCN = TRUE, ratioConvert = TRUE,verbose = TRUE)
 
 myLoad <- champ.load(Dir,filterBeads=TRUE,arraytype="EPIC")
 # EPIC has 411 control probes
-
 pdf("MCaldwell.AMP.EPIC.QC.pdf")
 champ.QC()
 dev.off()
-
 ##########################################################################
 pdf("MCaldwell.AMP.EPIC.SVD.pdf")
 champ.SVD(beta=myNorm,pd=myLoad$pd)
