@@ -1,5 +1,5 @@
 #########################################################################################
-###   Title : Genome-wide DNA methylation analysis for atrial fibrillation patient
+###   Title : Genome-wide DNA methylation analysis for atrial fibrillation patient (MEAL)
 ###   Author: Shicheng Guo, Ph.D. Email: Shihcheng.Guo@Gmail.com 
 ###   Section 1. Function predifinition 
 ###   Section 2. Data Cleaning
