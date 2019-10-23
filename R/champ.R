@@ -6,6 +6,7 @@
 ###   Section 3. Differential Analysis
 ###   Section 4. Pathway Analysis
 ###   Section 5. GEO Validation (GSE34639,GSE27895)
+###   BIRC10-LC
 #########################################################################################
 BiocManager::install("ChAMP") 
 BiocManager::install("doParallel") 
