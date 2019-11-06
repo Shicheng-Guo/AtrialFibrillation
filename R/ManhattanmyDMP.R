@@ -1,3 +1,4 @@
+
 ManhattanmyDMP<-function(myDMP){
   library(qqman)
   SNP=rownames(myDMP)
@@ -12,8 +13,8 @@ ManhattanmyDMP<-function(myDMP){
   manhattaninput=data.frame(SNP,CHR,BP,P)
   max<-max(2-log(manhattaninput$P,10))
   genomewideline=0.05/nrow(manhattaninput)
-  genomewideline=max(subset(myDMP,adj.P.Val<0.05)$P.Value)
   pdf("manhattan.pdf")
-  manhattan(manhattaninput,col = c("blue4", "orange3"),ylim = c(0,10),lwd=2, suggestiveline=F)
+  manhattan(manhattaninput,col = c("blue4", "orange3"),ylim = c(0,10),lwd=2, suggestiveline=F,genomewideline=FALSE)
   dev.off()
 }
+
