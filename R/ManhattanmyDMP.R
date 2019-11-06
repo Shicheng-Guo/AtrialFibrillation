@@ -1,6 +1,7 @@
 
 ManhattanmyDMP<-function(myDMP){
-  library(qqman)
+  library("qqman")
+  library("Haplin")
   SNP=rownames(myDMP)
   CHR=myDMP$CHR
   if(length(grep("X",CHR))>0){
@@ -15,6 +16,9 @@ ManhattanmyDMP<-function(myDMP){
   genomewideline=0.05/nrow(manhattaninput)
   pdf("manhattan.pdf")
   manhattan(manhattaninput,col = c("blue4", "orange3"),ylim = c(0,10),lwd=2, suggestiveline=F,genomewideline=FALSE)
+  dev.off()
+  pdf("qqplot.pdf")
+  pQQ(P, nlabs =length(pvalues), conf = 0.95)
   dev.off()
 }
 
