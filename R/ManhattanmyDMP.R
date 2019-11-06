@@ -18,7 +18,7 @@ ManhattanmyDMP<-function(myDMP){
   manhattan(manhattaninput,col = c("blue4", "orange3"),ylim = c(0,10),lwd=2, suggestiveline=F,genomewideline=FALSE)
   dev.off()
   pdf("qqplot.pdf")
-  pQQ(P, nlabs =length(pvalues), conf = 0.95)
+  pQQ(P, nlabs =length(P), conf = 0.95)
   dev.off()
 }
 
