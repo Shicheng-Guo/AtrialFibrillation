@@ -7,7 +7,7 @@
 ###   Section 4. Pathway Analysis
 ###   Section 5. GEO Validation (GSE34639,GSE27895)
 #########################################################################################
-
+install.packages("BiocManager")
 BiocManager::install("MEAL") 
 BiocManager::install("MultiDataSet") 
 BiocManager::install("minfiData") 
